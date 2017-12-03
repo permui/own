@@ -24,11 +24,12 @@
         let 
             table = layui.table,
             layer = layui.layer,
-            $ = layui.$;
+            $ = layui.$,
+            init_sort = {field:'id',type:'desc'};
         table.render({
             elem: '#postlist',
             url: '/data/postlist',
-            page: {limit: 10},
+            page: true,
             cols: [[
                 {field:'id',title:'ID',sort:true,fixed:'left'},
                 {field:'title',title:'Title'},
@@ -36,7 +37,7 @@
                 {field:'modified_at',title:'Modified At'},
                 {fixed:'right',align:'center',toolbar:'#toolbar'}
             ]],
-            initSort: {field:'id',type:'desc'}
+            initSort: init_sort
         });
         table.on('tool(mantable)',obj => {
             let {data:data,event:event,tr:tr} = obj;
@@ -44,10 +45,12 @@
             if (event === 'detail') window.open(`/admin/viewpost/${data.id}`,'_self'); else
             if (event === 'edit') window.open(`/admin/editpost/${data.id}`,'_self'); else
             if (event === 'delete') {
-                layer.confirm('Post is going to be deleted',index => {
-                    obj.del();
+                layer.confirm('Really Delete?',index => {
                     layer.close(index);
                     $.get(`/api/delete/p/${data.id}`);
+                    table.reload('postlist',{
+                        initSort: init_sort
+                    });
                 })
             }
         });
