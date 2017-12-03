@@ -4,8 +4,12 @@ const
 
 async function show_index(ctx,next) {
     ctx.response.type = 'text/html';
-    let p = await Post.findAll();
-    ctx.response.body = nun.render('./view/frontend/index.njk',{page_title: 'Index',posts: p});
+    let p = await Post.findAll({
+        where: {
+            visible: true
+        }
+    });
+    ctx.response.body = nun.render('./view/frontend/index.njk',{page_title: 'Own',posts: p});
 }
 
 module.exports = {

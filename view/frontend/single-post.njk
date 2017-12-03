@@ -6,6 +6,6 @@
         <p>Last modified at {{ modified_time }}<p>
     </header>
     <article>
-        {{ post.content | safe}}
+        {{ post.rendered | safe}}
     </article>
 {% endblock %}

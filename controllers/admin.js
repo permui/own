@@ -16,12 +16,15 @@ async function deal_new_post(ctx,next) {
     let 
         title = ctx.request.body.title,
         raw = ctx.request.body.content,
-        content = markdown.render(raw),
+        rendered = markdown.render(raw),
         now = Date.now();
     
     let p = await Post.create({
         title: title,
-        content: content,
+        markdown: raw,
+        rendered: rendered,
+        visible: true,
+        tags: "[]",
         created_at: now,
         modified_at: now
     });

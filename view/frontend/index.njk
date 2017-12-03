@@ -4,7 +4,7 @@
     {% for post in posts %}
         <article>
             <h1><a href="/p/{{ post.id }}">{{ post.title }}</a></h1>
-            {{ post.content | safe}}
+            {{ post.rendered | safe}}
         </article>
     {% else %}
         <p>No Post</p>
