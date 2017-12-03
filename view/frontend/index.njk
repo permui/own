@@ -1,0 +1,12 @@
+{% extends "./front-end-base.njk" %}
+
+{% block body %}
+    {% for post in posts %}
+        <article>
+            <h1><a href="/p/{{ post.id }}">{{ post.title }}</a></h1>
+            {{ post.content | safe}}
+        </article>
+    {% else %}
+        <p>No Post</p>
+    {% endfor %}
+{% endblock %}

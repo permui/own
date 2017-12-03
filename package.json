@@ -1,0 +1,31 @@
+{
+    "name": "own",
+    "version": "1.0.0",
+    "description": "a blog system for oier.",
+    "keywords": [
+        "blog"
+    ],
+    "license": "GPL-3.0",
+    "main": "app.js",
+    "scripts": {
+        "start": "node --use_strict app.js"
+    },
+    "dependencies": {
+        "koa": "2.4.1",
+        "koa-bodyparser": "4.2.0",
+        "koa-router": "7.3.0",
+        "koa-static": "4.0.2",
+        "koa-mount": "3.0.0",
+        "markdown-it": "8.4.0",
+        "markdown-it-katex": "2.0.3",
+        "katex": "0.9.0-alpha2",
+        "markdown-it-texmath": "0.4.5",
+        "mysql2": "1.5.1",
+        "nunjucks": "3.0.1",
+        "sequelize": "4.23.2",
+        "simple-git": "1.83.0",
+        "sqlite3": "3.1.13",
+        "mz": "2.7.0",
+        "mime": "2.0.3"
+    }
+}

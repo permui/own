@@ -1,0 +1,11 @@
+{% extends "./front-end-base.njk" %}
+
+{% block body %}
+    <header>
+        <h1>{{ post.title }}</h1>
+        <p>Last modified at {{ modified_time }}<p>
+    </header>
+    <article>
+        {{ post.content | safe}}
+    </article>
+{% endblock %}

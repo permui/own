@@ -1,0 +1,33 @@
+{% extends "../back-end-base.njk" %}
+
+{% block body %}
+<div style="padding:2em">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+            <form class="layui-form" method="POST">
+                <div class="layui-form-item">
+                    <input class="layui-input" type="text" name="title" required lay-verify="required" placeholder="Title" autocomplete="off">
+                </div>
+                <div class="layui-form-item">
+                    <textarea class="layui-textarea" name="content" required lay-verify="required" placeholder="Content" style="height:40em"></textarea>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" type="submit">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="layui-col-md4">
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    layui.use('jquery',() => {
+        let $ = layui.$;
+        $('#newpost').addClass('layui-this');
+    });
+</script>
+{% endblock %}
