@@ -1,15 +1,18 @@
 {% extends "../back-end-base.njk" %}
 
 {% block body %}
-<div style="padding:2em">
-    <fieldset class="layui-elem-field layui-field-title">
-        <legend>Post List</legend>
-    </fieldset>
-    <table id="postlist" lay-filter="mantable"></table>
-</div>
+<fieldset class="layui-elem-field layui-field-title">
+    <legend>Post List</legend>
+</fieldset>
+<table id="postlist" lay-filter="mantable"></table>
 {% endblock %}
 
 {% block scripts %}
+<script type="text/html" id="tableTitle">
+    {% raw %}
+    <a href="/p/{{d.id}}" class="layui-table-link">{{d.title}}</a>
+    {% endraw %}
+</script>
 <script type='text/html' id='toolbar'>
     <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="toggle_show">Hide / Show</a>
     <a class="layui-btn layui-btn-xs" lay-event="detail">detail</a>
@@ -27,26 +30,20 @@
             layer = layui.layer,
             $ = layui.$,
             init_sort = {field:'id',type:'desc'};
-        table.render({
+        let postlist = table.render({
             elem: '#postlist',
             url: '/data/postlist',
             page: true,
             cols: [[
-                {field:'id',title:'ID',sort:true,fixed:'left'},
-                {field:'title',title:'Title'},
-                {field:'created_at',title:'Created At'},
-                {field:'modified_at',title:'Modified At'},
-                {field:'visible',title:'Visible'},
+                {field:'id',title:'ID',sort:true,fixed:'left',width:60},
+                {field:'title',title:'Title',width:400,templet:'#tableTitle'},
+                {field:'created_at',title:'Created At',width:190},
+                {field:'modified_at',title:'Modified At',width:190},
+                {field:'visible',title:'Visible',width:100},
                 {fixed:'right',align:'center',toolbar:'#toolbar'}
             ]],
             initSort: init_sort
         });
-        console.log(table);
-        function reload(s) {
-            table.reload(s,{
-                initSort: init_sort
-            });
-        }
         table.on('tool(mantable)',obj => {
             let {data:data,event:event,tr:tr} = obj;
             console.log(obj);
@@ -55,9 +52,14 @@
             if (event === 'delete') {
                 layer.confirm('Really Delete?',index => {
                     layer.close(index);
-                    $.get(`/api/delete/p/${data.id}`);
-                    reload('postlist');
+                    $.get(`/api/post/delete/p/${data.id}`);
+                    postlist.reload();
                 })
+            } else 
+            if (event === 'toggle_show') {
+                $.get(`/api/post/toggle/p/${data.id}`);
+                let visi = !JSON.parse(data.visible);
+                obj.update({visible:String(visi)});
             }
         });
     });

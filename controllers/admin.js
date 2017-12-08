@@ -42,9 +42,41 @@ async function show_man_post(ctx,next) {
     ctx.response.body = nun.render('./view/backend/post/manpost.njk');
 }
 
+async function view_post(ctx,next) {
+    let id = ctx.params.id;
+    let p = await Post.find({where:{id:id}});
+    ctx.response.body = nun.render('./view/backend/post/viewpost.njk',{post:p});
+}
+
+async function edit_post(ctx,next) {
+    let id = ctx.params.id;
+    let p = await Post.find({where:{id:id}});
+    ctx.response.body = nun.render('./view/backend/post/editpost.njk',{post:p});
+}
+
+async function deal_edit_post(ctx,next) {
+    let 
+        id = ctx.params.id,
+        title = ctx.request.body.title,
+        raw = ctx.request.body.content,
+        rendered = markdown.render(raw),
+        now = Date.now();
+
+    Post.update({
+        title: title,
+        markdown: raw,
+        rendered: rendered,
+        modified_at: now
+    },{where:{id:id}});
+    ctx.response.redirect('/admin/manpost');
+}
+
 module.exports = {
     'GET /admin': show_dash_board,
     'GET /admin/newpost': show_new_post,
     'GET /admin/manpost': show_man_post,
+    'GET /admin/viewpost/:id': view_post,
+    'GET /admin/editpost/:id': edit_post,
+    'POST /admin/editpost/:id': deal_edit_post,
     'POST /admin/newpost': deal_new_post
 }

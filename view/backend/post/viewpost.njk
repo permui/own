@@ -1,0 +1,14 @@
+{% extends "../back-end-base.njk" %}
+
+{% block css %}
+<link rel="stylesheet" href="/public/article-base.css">
+{% endblock %}
+
+{% block body %}
+<header>
+    <h1>{{ post.title }}</h1>
+</header>
+<article>
+    {{ post.rendered | safe }}
+</article>
+{% endblock %}
