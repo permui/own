@@ -28,11 +28,11 @@ async function deal_new_post(ctx,next) {
         created_at: now,
         modified_at: now
     });
-    ctx.response.body = `<h2><a href="/p/${p.id}">Post ${p.id} Created!</a></h2>`;
-    console.log('created post: ' + JSON.stringify(p));
+    ctx.response.redirect('/admin/manpost');
 }
 
 async function show_dash_board(ctx,next) {
+    if (ctx.isUnauthenticated()) ctx.redirect('/login');
     ctx.response.type = 'text/html';
     ctx.response.body = nun.render('./view/backend/back-end-base.njk');
 }
@@ -45,12 +45,14 @@ async function show_man_post(ctx,next) {
 async function view_post(ctx,next) {
     let id = ctx.params.id;
     let p = await Post.find({where:{id:id}});
+    if (!p) ctx.response.redirect('/404');
     ctx.response.body = nun.render('./view/backend/post/viewpost.njk',{post:p});
 }
 
 async function edit_post(ctx,next) {
     let id = ctx.params.id;
     let p = await Post.find({where:{id:id}});
+    if (!p) ctx.response.redirect('/404');
     ctx.response.body = nun.render('./view/backend/post/editpost.njk',{post:p});
 }
 
@@ -61,7 +63,6 @@ async function deal_edit_post(ctx,next) {
         raw = ctx.request.body.content,
         rendered = markdown.render(raw),
         now = Date.now();
-
     Post.update({
         title: title,
         markdown: raw,

@@ -16,9 +16,7 @@ async function toggle_post(ctx,next) {
     let id = ctx.params.id;
     let p = await Post.find({where: {id: id}});
     let bef = p.visible;
-    console.log(bef);
     await Post.update({visible: !bef},{where: {id: id}});
-    console.log(`toggled post ${id}`);
     ctx.response.status = 200;
 }
 

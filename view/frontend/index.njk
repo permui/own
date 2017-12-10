@@ -3,8 +3,8 @@
 {% block body %}
     {% for post in posts %}
         <article>
-            <h1><a href="/p/{{ post.id }}">{{ post.title }}</a></h1>
-            {{ post.rendered | safe}}
+            <h1 style="font-size:2em"><a href="/p/{{ post.id }}">{{ post.title }}</a></h1>
+            {{ post.preview | safe}}
         </article>
     {% else %}
         <p>No Post</p>

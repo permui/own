@@ -1,8 +1,8 @@
 @import url(/public/article-base.css);
 
 .site-content {
-    margin-left: 50px;
-    margin-right: 360px;
+    margin-left: 4em;
+    margin-right: 28em;
 }
 
 .layui-nav {
