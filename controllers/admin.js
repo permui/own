@@ -1,11 +1,17 @@
 const
     Post = require('../database/post'),
-    fs = require('fs'),
+    fs = require('mz/fs'),
     nun = require('nunjucks'),
     mk = require('markdown-it-katex'),
-    markdown = new require('markdown-it')();
+    markdown = new require('markdown-it')({html:true});
 
 markdown.use(mk);
+
+async function save_post(p) {
+    let com = `<!-- ${p.tags} -->\n\n${p.markdown}`;
+    await fs.writeFile(`./data/files/posts/${p.title}.md`,com);
+    console.log('post saved');
+}
 
 async function show_new_post(ctx,next) {
     ctx.response.type = 'text/html';
@@ -29,6 +35,7 @@ async function deal_new_post(ctx,next) {
         modified_at: now
     });
     ctx.response.redirect('/admin/manpost');
+    await save_post(p);
 }
 
 async function show_dash_board(ctx,next) {
@@ -63,13 +70,15 @@ async function deal_edit_post(ctx,next) {
         raw = ctx.request.body.content,
         rendered = markdown.render(raw),
         now = Date.now();
-    Post.update({
+    await Post.update({
         title: title,
         markdown: raw,
         rendered: rendered,
         modified_at: now
     },{where:{id:id}});
     ctx.response.redirect('/admin/manpost');
+    let p = await Post.find({where:{id:id}});
+    await save_post(p);
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ const
 async function show_post(ctx,next) {
     let id = parseInt(ctx.params.id);
     let p = await Post.findOne({where:{id:id}});
-    if (!p) {
+    if (!p || (!p.visible && ctx.isUnauthenticated())) {
         ctx.response.redirect('/404');
         return;
     }

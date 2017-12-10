@@ -1,6 +1,7 @@
 const 
     Post = require('../database/post'),
     nun = require('nunjucks'),
+    fs = require('mz/fs'),
     jsdom = require('jsdom').JSDOM;
 
 async function show_index(ctx,next) {
@@ -15,6 +16,12 @@ async function show_index(ctx,next) {
     ctx.response.body = nun.render('./view/frontend/index.njk',{page_title:'Own',posts:p});
 }
 
+async function show_404(ctx,next) {
+    ctx.response.type = 'text/html';
+    ctx.response.body = await fs.readFile('./view/frontend/404.html');
+}
+
 module.exports = {
-    'GET /': show_index
+    'GET /': show_index,
+    'GET /404': show_404
 }
