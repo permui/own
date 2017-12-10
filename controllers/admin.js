@@ -14,6 +14,7 @@ async function save_post(p) {
     await fs.writeFile(name,com);
     await git.add([name]);
     await git.commit(`committed post ${p.id}`,[name]);
+    await git.push('origin','master');
 }
 
 async function show_new_post(ctx,next) {
@@ -38,6 +39,7 @@ async function deal_new_post(ctx,next) {
         modified_at: now
     });
     ctx.response.redirect('/admin/manpost');
+    ctx.res.end();
     await save_post(p);
 }
 
@@ -80,6 +82,7 @@ async function deal_edit_post(ctx,next) {
         modified_at: now
     },{where:{id:id}});
     ctx.response.redirect('/admin/manpost');
+    ctx.res.end();
     let p = await Post.find({where:{id:id}});
     await save_post(p);
 }

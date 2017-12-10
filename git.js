@@ -1,5 +1,8 @@
-const git = require('simple-git')();
+const git = require('simple-git/promise')();
 
-git.addConfig('user.name','admin').addConfig('user.email','admin@own.com');
+(async () => {
+    await git.addConfig('user.name','permui');
+    await git.addConfig('user.email','1037699466@qq.com');
+})();
 
 module.exports = git;

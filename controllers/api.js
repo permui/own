@@ -8,6 +8,7 @@ async function save_delete_post(id,name) {
     await fs.unlink(file);
     await git.add([file]);
     await git.commit(`deleted post ${id} with name ${name}`,[file]);
+    await git.push('origin','master');
 }
 
 async function delete_post(ctx,next) {
@@ -16,7 +17,8 @@ async function delete_post(ctx,next) {
     await Post.destroy({where:{id:id},force: true});
     console.log(`deleted post ${id}`);
     ctx.response.status = 200;
-    await save_delete_post(id,name)
+    ctx.res.end();
+    await save_delete_post(id,name);
 }
 
 async function toggle_post(ctx,next) {
