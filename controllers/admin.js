@@ -2,6 +2,7 @@ const
     Post = require('../database/post'),
     fs = require('mz/fs'),
     nun = require('nunjucks'),
+    git = require('../git'),
     mk = require('markdown-it-katex'),
     markdown = new require('markdown-it')({html:true});
 
@@ -9,8 +10,10 @@ markdown.use(mk);
 
 async function save_post(p) {
     let com = `<!-- ${p.tags} -->\n\n${p.markdown}`;
-    await fs.writeFile(`./data/files/posts/${p.title}.md`,com);
-    console.log('post saved');
+    let name = `./data/files/posts/${p.title}.md`;
+    await fs.writeFile(name,com);
+    await git.add([name]);
+    await git.commit(`committed post ${p.id}`,[name]);
 }
 
 async function show_new_post(ctx,next) {
