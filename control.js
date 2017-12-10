@@ -1,12 +1,12 @@
 const 
-    fs = require('fs');
+    fs = require('fs'),
     Router = require('koa-router');
 
 let path = __dirname + '/controllers';
 
 let file = fs.readdirSync(path).filter(f => f.endsWith('.js'));
 
-router = new Router();
+let router = new Router();
 
 for (let f of file) {
     let q = require(`${path}/${f}`);

@@ -1,5 +1,5 @@
 const 
-    Post = require('../database/post');
+    Post = require('../database/post'),
     Op = require('sequelize').Op,
     nun = require('nunjucks');
 

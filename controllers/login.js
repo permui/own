@@ -1,5 +1,5 @@
 const 
-    nun = require('nunjucks');
+    nun = require('nunjucks'),
     passport = require('../authen/strategy');
 
 nun.configure({watch:true});
